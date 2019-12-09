@@ -31,7 +31,10 @@ function createWindow () {
     center: true,
     alwaysOnTop: true,
     fullscreen: true,
-    kiosk: false
+    kiosk: false,
+    webPreferences: {
+      webSecurity: false
+    }
   })
 
   mainWindow.loadURL(winURL)

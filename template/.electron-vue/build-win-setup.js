@@ -19,7 +19,7 @@ var setupOptions = {
   iconPath: resolve('./.electron-vue/icons/icon.ico'),
   appPublisher: '梁乐',
   appURL: 'https://zzdmt.cn',
-  appId: '{{840AE126-934D-4BBE-8E8F-9E984A68B6F8}}',
+  setupID: '{{840AE126-934D-4BBE-8E8F-9E984A68B6F8}}',
   outputPath: resolve("./build"),
   outputFileName: function () {
     return tmpJson.description + '-' + tmpJson.version
@@ -47,7 +47,7 @@ function makeExeSetup(opt) {
     resourcesPath,
     appPublisher,
     appURL,
-    appId
+    setupID
   } = opt
   const {
     name,
@@ -72,7 +72,7 @@ function makeExeSetup(opt) {
         .replace(/_resourcesPath_/g, resourcesPath)
         .replace(/_appPublisher_/g, appPublisher)
         .replace(/_appURL_/g, appURL)
-        .replace(/_appId_/g, appId)
+        .replace(/_appId_/g, setupID)
 
       fs.writeFile(tmpIssPath, iconv.encode(str, 'gbk'), null, function (err) {
         if (err) return reject(err)
