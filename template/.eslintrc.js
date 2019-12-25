@@ -21,6 +21,7 @@ module.exports = {
     'html'
   ],
   'rules': {
+    'space-before-function-paren': ['error', 'never'],
     {{#if_eq eslintConfig 'standard'}}
     // allow paren-less arrow functions
     'arrow-parens': 0,
