@@ -1,29 +1,29 @@
-{ {#if_eq eslintConfig 'standard' } }
+{{#if_eq eslintConfig 'standard'}}
 'use strict'
 
-{ {/if_eq} }
-    import { app, BrowserWindow } from 'electron' { {#if_eq eslintConfig 'airbnb' } } // eslint-disable-line{{/if_eq}}
+{{/if_eq}}
+import { app, BrowserWindow } from 'electron' {{#if_eq eslintConfig 'airbnb'}} // eslint-disable-line{{/if_eq}}
 
-    const NodeRSA = require('node-rsa');
-    var regedit = require('regedit')
-    regedit.setExternalVBSLocation('./resources/vbs');
+const NodeRSA = require('node-rsa');
+var regedit = require('regedit')
+regedit.setExternalVBSLocation('./resources/vbs');
 
-    var name = require('../../package.json').name
-    var data = {}
-    data[name] = {
-      value: Date.now().toString(),
-      type: 'REG_SZ'
-    }
-    var path = require('path');
-    var fs = require('fs');
-    var root = path.dirname(process.execPath).split('\\').join('/') + '/lic.licence'
-    var publicKey = `-----BEGIN PUBLIC KEY-----
+var name = require('../../package.json').name
+var data = {}
+data[name] = {
+  value: Date.now().toString(),
+  type: 'REG_SZ'
+}
+var path = require('path');
+var fs = require('fs');
+var root = path.dirname(process.execPath).split('\\').join('/') + '/lic.licence'
+var publicKey = `-----BEGIN PUBLIC KEY-----
 MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCmfvKiF6Ylw1Tf93S63Bctz/HY
 tPxlDcPi8gKuS9eYYamdW2/hx1jURQj8vnPaZiP/b6qp/0NufeasETOB3BVseokm
 DOJ+MSlUb/uF2RLN0MaHJ6V9QkcY5KhHrETsLnqMZcvr7JUvs3rgaal6fFkp96Gi
 lxeHS3dHgQXpV8xHhwIDAQAB
 -----END PUBLIC KEY-----`;
-    var privateKey = `-----BEGIN RSA PRIVATE KEY-----
+var privateKey = `-----BEGIN RSA PRIVATE KEY-----
 MIICXAIBAAKBgQCmfvKiF6Ylw1Tf93S63Bctz/HYtPxlDcPi8gKuS9eYYamdW2/h
 x1jURQj8vnPaZiP/b6qp/0NufeasETOB3BVseokmDOJ+MSlUb/uF2RLN0MaHJ6V9
 QkcY5KhHrETsLnqMZcvr7JUvs3rgaal6fFkp96GilxeHS3dHgQXpV8xHhwIDAQAB
@@ -38,8 +38,8 @@ CnwThjwNgjggfddQQiKb3DNJ+KK8+5PbpQnNrC3T66ksd8KSkHlqj+uBA5sCQFQ6
 XnjKxfQa3GWerakHCRUCQHwjikWYroHF6RBoYA208tV3cZRyfCyFNoBHLmv31fFI
 MFL1DOXGfi+GxShH8RSJghLxwEYx1glTuMxVgQawgJ4=
 -----END RSA PRIVATE KEY-----`;
-    function checkLicense(success, fail) {
-      try {
+function checkLicense(success, fail) {
+  try {
         if (fs.existsSync(root)) {
           var licenceEncrypted = fs.readFileSync(root, 'utf8').toString();
           var _privateKey = new NodeRSA(privateKey);
@@ -82,48 +82,48 @@ MFL1DOXGfi+GxShH8RSJghLxwEYx1glTuMxVgQawgJ4=
       catch (err) {
         fail()
       }
-    }
+}
 
-    function updateLast(json) {
+function updateLast(json) {
       json.last = new Date()
       var _publicKey = NodeRSA(publicKey)
       var decrypted = _publicKey.encrypt(json, 'base64');
       fs.writeFileSync(root, decrypted)
-    }
+}
 
-    function queue_software() {
+function queue_software() {
       return new Promise((resolve, reject) => {
         regedit.list(['HKLM\\SOFTWARE'], function (err, SOFTWARE) {
           if (err !== null) return reject(err)
           resolve(SOFTWARE)
         })
       })
-    }
-    function queue_company() {
+}
+function queue_company() {
       return new Promise((resolve, reject) => {
         regedit.list(['HKLM\\SOFTWARE\\ChunKun'], function (err, COMPANY) {
           if (err !== null) return reject(err)
           resolve(COMPANY)
         })
       })
-    }
-    function create_company() {
+}
+function create_company() {
       return new Promise((resolve, reject) => {
         regedit.createKey(['HKLM\\SOFTWARE\\ChunKun'], function (err) {
           if (err !== null) resolve(false)
           resolve(true)
         })
       })
-    }
-    function insert_product() {
+}
+function insert_product() {
       return new Promise((resolve, reject) => {
         regedit.putValue({ 'HKLM\\SOFTWARE\\ChunKun': data }, function (err) {
           if (err !== null) resolve(false)
           resolve(true)
         })
       })
-    }
-    async function check_regedit() {
+}
+async function check_regedit() {
       var SOFTWARE = await queue_software();
       if (SOFTWARE['HKLM\\SOFTWARE'].hasOwnProperty('keys') && SOFTWARE['HKLM\\SOFTWARE'].keys.indexOf('ChunKun') > -1) {
         var COMPANY = await queue_company();
@@ -138,22 +138,20 @@ MFL1DOXGfi+GxShH8RSJghLxwEYx1glTuMxVgQawgJ4=
         await insert_product();
         return true
       }
-    }
+}
 
     /**
      * Set `__static` path to static files in production
      * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
      */
-    if (process.env.NODE_ENV !== 'development') {
+if (process.env.NODE_ENV !== 'development') {
       global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\'){ {#if_eq eslintConfig 'airbnb' } } // eslint-disable-line{{/if_eq}}
-    }
+}
 
-    let mainWindow
-    const winURL = process.env.NODE_ENV === 'development'
-      ? `http://localhost:9080`
-      : `file://${__dirname}/index.html`
+let mainWindow
+const winURL = process.env.NODE_ENV === 'development' ? `http://localhost:9080` : `file://${__dirname}/index.html`
 
-    function createWindow() {
+function createWindow() {
       /**
        * Initial window options
        */
@@ -186,25 +184,25 @@ MFL1DOXGfi+GxShH8RSJghLxwEYx1glTuMxVgQawgJ4=
           mainWindow = null
         }
       )
-    }
+}
 
-    app.on('ready', createWindow)
+app.on('ready', createWindow)
 
-    app.on('window-all-closed', () => {
-      if (process.platform !== 'darwin') {
-        app.quit()
-      }
-    })
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') {
+    app.quit()
+  }
+})
 
-    app.on('activate', () => {
-      if (mainWindow === null) {
-        createWindow()
-      }
-    })
-    { {#if_eq builder 'builder' } }
+app.on('activate', () => {
+  if (mainWindow === null) {
+    createWindow()
+  }
+})
+{{#if_eq builder 'builder'}}
 
-    /**
-     * Auto Updater
+/**
+* Auto Updater
      *
      * Uncomment the following code below and install `electron-updater` to
      * support auto updating. Code Signing with a valid certificate is required.
@@ -221,5 +219,5 @@ MFL1DOXGfi+GxShH8RSJghLxwEYx1glTuMxVgQawgJ4=
     app.on('ready', () => {
       if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
     })
-     */
-    { { /if_eq}}
+*/
+{{/if_eq}}
