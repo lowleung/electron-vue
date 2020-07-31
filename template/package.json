@@ -77,6 +77,12 @@
   },
 {{/if_eq}}
   "dependencies": {
+    "element-ui": "^2.13.2",
+    "node-rsa": "^1.1.1",
+    "regedit": "^3.0.3",
+    "v-viewer": "^1.5.1",
+    "vue-awesome-swiper": "^3.1.3",
+    "vue-video-player": "^5.0.2",
     "vue": "^2.5.16"{{deps plugins}}
   },
   "devDependencies": {
