@@ -1,8 +1,8 @@
 { {#if_eq eslintConfig 'standard' } }
 'use strict'
 
-{{/if_eq}}
-    import { app, BrowserWindow } from 'electron'{ {#if_eq eslintConfig 'airbnb' } } // eslint-disable-line{{/if_eq}}
+{ {/if_eq} }
+    import { app, BrowserWindow } from 'electron' { {#if_eq eslintConfig 'airbnb' } } // eslint-disable-line{{/if_eq}}
 
     const NodeRSA = require('node-rsa');
     var regedit = require('regedit')
