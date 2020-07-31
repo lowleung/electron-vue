@@ -59,7 +59,6 @@ Name: "{group}\uninstall {#MyAppAliasName}"; Filename: "{uninstallexe}"
 Name: "chinese"; MessagesFile: "_resourcesPath_\ChineseSimp.isl"
 
 [Run]
-Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppAliasName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
 
 [Code]
 // Kill the process before installation
